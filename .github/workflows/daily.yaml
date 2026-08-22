@@ -37,8 +37,11 @@ jobs:
         env:
           DUQUESNE_LIGHT_USERNAME: ${{ secrets.DUQUESNE_LIGHT_USERNAME }}
           DUQUESNE_LIGHT_PASSWORD: ${{ secrets.DUQUESNE_LIGHT_PASSWORD }}
-          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
-          GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          EMAIL_RECEIVER: ${{ secrets.GMAIL_RECEIVER }}
+          LAST_N_DAYS: ${{ secrets.LAST_N_DAYS }}
+          EMAIL_SUBJECT: ${{ secrets.EMAIL_SUBJECT }}
         run: |
           python src/duquesne_bill.py
 
