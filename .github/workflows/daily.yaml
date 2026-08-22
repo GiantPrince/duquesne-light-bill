@@ -38,7 +38,7 @@ jobs:
           DUQUESNE_LIGHT_USERNAME: ${{ secrets.DUQUESNE_LIGHT_USERNAME }}
           DUQUESNE_LIGHT_PASSWORD: ${{ secrets.DUQUESNE_LIGHT_PASSWORD }}
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
-          GMAIL_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
         run: |
           python src/duquesne_bill.py
 
