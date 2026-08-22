@@ -105,43 +105,42 @@ def format_costs_table(costs):
     return table
 
 if __name__ == "__main__":
-    try:
-        with sync_playwright() as p:
-            browser = p.chromium.launch(
-                headless=False
-            )
 
-            context = browser.new_context()
+    with sync_playwright() as p:
+        browser = p.chromium.launch(
+            headless=False
+        )
 
-            page = context.new_page()
+        context = browser.new_context()
 
-            page.goto("https://duquesnelight.com/energy-money-savings/my-electric-use")
+        page = context.new_page()
 
-            login(page)
+        page.goto("https://duquesnelight.com/energy-money-savings/my-electric-use")
 
-            screenshots, texts = extract_last_n_days_cost(page, LAST_N_DAYS)
+        login(page)
 
-            msg = EmailMessage()
-            msg["From"] = GMAIL_SENDER
-            msg["To"] = EMAIL_RECEIVER
-            msg["Subject"] = EMAIL_SUBJECT
+        screenshots, texts = extract_last_n_days_cost(page, LAST_N_DAYS)
 
-            msg.set_content(format_costs_table(texts))
+        msg = EmailMessage()
+        msg["From"] = GMAIL_SENDER
+        msg["To"] = EMAIL_RECEIVER
+        msg["Subject"] = EMAIL_SUBJECT
 
-            for screenshot in screenshots:
-                with open(screenshot, "rb") as f:
-                    msg.add_attachment(
-                        f.read(),
-                        maintype="image",
-                        subtype="png",
-                        filename=screenshot,
-                    )
+        msg.set_content(format_costs_table(texts))
 
-            with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-                smtp.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
-                smtp.send_message(msg)
+        for screenshot in screenshots:
+            with open(screenshot, "rb") as f:
+                msg.add_attachment(
+                    f.read(),
+                    maintype="image",
+                    subtype="png",
+                    filename=screenshot,
+                )
 
-            print("Email sent!")
-    except BaseException as e:
-        print(e)
-        
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
+            smtp.send_message(msg)
+
+        print("Email sent!")
+
+    
