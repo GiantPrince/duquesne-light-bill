@@ -1,0 +1,46 @@
+name: Daily Chart
+
+on:
+  push:
+    branches:
+      - main
+
+  schedule:
+    - cron: "30 13 * * *"
+  
+  workflow_dispatch:
+
+jobs:
+  chart:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+          with:
+            python-version: "3.12"
+            cache: pip
+
+      - name: Install Dependncies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright
+        run: |
+          playwright install --with-deps chromium
+
+      - name: Run Scraper
+        env:
+          DUQUESNE_LIGHT_USERNAME: ${{ secrets.DUQUESNE_LIGHT_USERNAME }}
+          DUQUESNE_LIGHT_PASSWORD: ${{ secrets.DUQUESNE_LIGHT_PASSWORD }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          python src/duquesne_bill.py
+
+
+        

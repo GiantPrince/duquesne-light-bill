@@ -16,7 +16,7 @@ GMAIL_ADDRESS=os.environ["GMAIL_ADDRESS"]
 if __name__ == "__main__":
     with sync_playwright() as p:
         browser = p.chromium.launch(
-            headless=False
+            headless=True
         )
 
         context = browser.new_context()
