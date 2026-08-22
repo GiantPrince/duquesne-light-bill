@@ -6,7 +6,7 @@ on:
       - main
 
   schedule:
-    - cron: "35 13 * * *"
+    - cron: "0 22 * * 0"
   
   workflow_dispatch:
 
@@ -39,7 +39,7 @@ jobs:
           DUQUESNE_LIGHT_PASSWORD: ${{ secrets.DUQUESNE_LIGHT_PASSWORD }}
           GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          EMAIL_RECEIVER: ${{ secrets.GMAIL_RECEIVER }}
+          EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
           LAST_N_DAYS: ${{ secrets.LAST_N_DAYS }}
           EMAIL_SUBJECT: ${{ secrets.EMAIL_SUBJECT }}
         run: |
