@@ -9,6 +9,30 @@ Generate a bill report for your Duquesne Light account.
 
 **Scheduled Reports** — Use GitHub Actions to generate the report as scheduled.
 
+## Usage
+
+First, install the dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Then install the Playwright Chromium browser:
+
+```bash
+playwright install chromium
+```
+
+Create a .env file in the project root. See the Configuration section for details and the required environment variables.
+
+Run the application:
+
+```bash
+python src/duquesne_bill.py
+```
+
+The report will be sent to the email address configured in EMAIL_RECEIVER.
+
 ## Configuration
 
 The application is configured using environment variables.
