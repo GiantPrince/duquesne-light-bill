@@ -42,8 +42,8 @@ def login(page):
 
 def extract_last_n_days_cost(page, n: int) -> tuple[list[str], list[tuple[str, str]]]:
     """
-    Try to extract the cost data in last n days. 
-    Capture screenshots of the daily cost graph and also return date 
+    Try to extract the cost data in last n days.
+    Capture screenshots of the daily cost graph and also return date
     string with daily costs
     """
     n_costs = []
@@ -121,26 +121,27 @@ if __name__ == "__main__":
 
         screenshots, texts = extract_last_n_days_cost(page, LAST_N_DAYS)
 
-        msg = EmailMessage()
-        msg["From"] = GMAIL_SENDER
-        msg["To"] = EMAIL_RECEIVER
-        msg["Subject"] = EMAIL_SUBJECT
+        receivers = EMAIL_RECEIVER.split(',')
 
-        msg.set_content(format_costs_table(texts))
+        for receiver in receivers:
+            msg = EmailMessage()
+            msg["From"] = GMAIL_SENDER
+            msg["To"] = receiver.strip()
+            msg["Subject"] = EMAIL_SUBJECT
 
-        for screenshot in screenshots:
-            with open(screenshot, "rb") as f:
-                msg.add_attachment(
-                    f.read(),
-                    maintype="image",
-                    subtype="png",
-                    filename=screenshot,
-                )
+            msg.set_content(format_costs_table(texts))
 
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
-            smtp.send_message(msg)
+            for screenshot in screenshots:
+                with open(screenshot, "rb") as f:
+                    msg.add_attachment(
+                        f.read(),
+                        maintype="image",
+                        subtype="png",
+                        filename=screenshot,
+                    )
+
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+                smtp.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
+                smtp.send_message(msg)
 
         print("Email sent!")
-
-    
